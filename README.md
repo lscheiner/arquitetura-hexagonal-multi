@@ -1,18 +1,25 @@
-# arquitetura-hexagonal-multi
-Hexagonal multi
 
-criacao dos modulos - usar gitbash
-- parent 
+# Arquitetura Hexagonal Multi
 
-mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=scheiner-parent
+## Criação dos módulos (usando Git Bash)
 
-adicionar 
+### 1. Criar o módulo *parent*
 
-<packaging>pom</packaging>
+Execute o comando abaixo para gerar o módulo *parent*:
 
-no parent
+    mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=scheiner-parent
 
-sub-projetos
+### 2. Configurar o `pom.xml` do módulo *parent*
 
-mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=api
-mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=application
+No arquivo `pom.xml` do módulo *parent*, adicione a seguinte configuração para definir o empacotamento como POM:
+
+    <packaging>pom</packaging>
+
+### 3. Criar os subprojetos
+
+Entre no diretório `scheiner-parent` e crie os subprojetos executando os comandos:
+
+    mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=api
+    mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=application
+
+---
