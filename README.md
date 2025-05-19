@@ -21,5 +21,7 @@ Entre no diretório `scheiner-parent` e crie os subprojetos executando os comand
 
     mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=api
     mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=application
+    mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=domain
+    mvn archetype:generate -DgroupId=br.com.scheiner -DartifactId=infrastructure
 
 ---
