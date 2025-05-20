@@ -1,5 +1,6 @@
 package br.com.scheiner.repository.impl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import br.com.scheiner.domain.model.Usuario;
 import br.com.scheiner.domain.service.UsuarioRepository;
 import br.com.scheiner.repository.UsuarioJpaRepository;
+import br.com.scheiner.repository.mapper.UsuarioEntityMapper;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -17,12 +19,14 @@ public class UsuarioRepositoryImpl implements UsuarioRepository{
 	
 	@Override
 	public Usuario salvar(Usuario usuario) {
-		return null;
+		
+		var usuarioEntity = UsuarioEntityMapper.INSTANCE.toEntity(usuario);
+		return UsuarioEntityMapper.INSTANCE.toDomain(usuarioJpaRepository.save(usuarioEntity));
 	}
 
 	@Override
-	public Usuario obterUsuarioPorId(UUID id) {
-		return null;
+	public Optional<Usuario> obterUsuarioPorId(UUID id) {
+		return usuarioJpaRepository.findById(id).map(UsuarioEntityMapper.INSTANCE::toDomain);
 	}
 
 }

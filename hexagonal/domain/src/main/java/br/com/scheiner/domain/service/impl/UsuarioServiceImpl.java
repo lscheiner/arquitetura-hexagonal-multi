@@ -17,12 +17,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Override
 	public Usuario criarUsuario(Usuario usuario) {
-		return null;
+		return usuarioRepository.salvar(usuario);
 	}
 
 	@Override
 	public Usuario obterUsuarioPorId(UUID id) {
-		return null;
+		return usuarioRepository.obterUsuarioPorId(id).get();
 	}
 
 }
