@@ -6,7 +6,7 @@
   <parent>
     <artifactId>hexagonal</artifactId>
     <groupId>br.com.scheiner</groupId>
-    <version>${parent.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
 
