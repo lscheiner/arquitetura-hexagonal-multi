@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>br.com.scheiner</groupId>
-			<artifactId>domain</artifactId>
+			<artifactId>core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>

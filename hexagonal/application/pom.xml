@@ -27,6 +27,10 @@
 			<artifactId>domain</artifactId>
 		</dependency>
 		<dependency>
+				<groupId>br.com.scheiner</groupId>
+				<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>br.com.scheiner</groupId>
 			<artifactId>infrastructure</artifactId>
 		</dependency>
