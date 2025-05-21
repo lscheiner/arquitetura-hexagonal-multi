@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.com.scheiner.domain.exception.UsuarioNaoEncontradoException;
 import br.com.scheiner.domain.model.Usuario;
 import br.com.scheiner.domain.service.UsuarioRepository;
 import br.com.scheiner.domain.service.UsuarioService;
@@ -22,7 +23,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario obterUsuarioPorId(UUID id) {
-		return usuarioRepository.obterUsuarioPorId(id).get();
+		return usuarioRepository.obterUsuarioPorId(id).orElseThrow(UsuarioNaoEncontradoException::new);
 	}
 
 }
