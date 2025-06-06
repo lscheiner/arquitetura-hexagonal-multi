@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.scheiner.api.dto.UsuarioRequestDTO;
 import br.com.scheiner.api.dto.UsuarioResponseDTO;
 import br.com.scheiner.api.mapper.UsuarioMapper;
+import br.com.scheiner.core.annotation.ValidaRequest;
 import br.com.scheiner.domain.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,6 +35,7 @@ public class UsuarioController {
 
 	private final UsuarioService usuarioService;
 
+	@ValidaRequest("email")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Operation(summary = "Criar um novo usuário")
