@@ -10,8 +10,11 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import br.com.scheiner.core.annotation.ValidaRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Aspect
@@ -23,6 +26,10 @@ public class ValidaRequestAspect {
 	
     @Before("@annotation(validaRequest)")
     public void validar(JoinPoint joinPoint, ValidaRequest validaRequest) {
+    	
+    	HttpServletRequest request = getCurrentHttpRequest();
+    	String authorization = request.getHeader("Authorization");
+    	log.info("Authorization header: {}", authorization);
         
     	Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         
@@ -59,5 +66,14 @@ public class ValidaRequestAspect {
         if (fieldName == null || fieldName.isEmpty()) return fieldName;
         return Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
     }
+    
+	private HttpServletRequest getCurrentHttpRequest() {
+		var requestAttributes = RequestContextHolder.getRequestAttributes();
+
+		if (requestAttributes instanceof ServletRequestAttributes servletRequestAttributes) {
+			return servletRequestAttributes.getRequest();
+		}
+		throw new IllegalStateException("Não foi possível obter HttpServletRequest");
+	}
 }
 
