@@ -14,7 +14,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
-import br.com.scheiner.core.annotation.ValidaRequest;
 import br.com.scheiner.core.annotation.ValidarIdentificador;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +24,8 @@ public class ValidaRequestAspect {
 
     private static final ExpressionParser SPEL_PARSER = new SpelExpressionParser();
 
-    @Before("@annotation(validaRequest)")
-    public void validar(JoinPoint joinPoint, ValidaRequest validaRequest) {
+    @Before("execution(* *(.., @br.com.scheiner.core.annotation.ValidarIdentificador (*), ..))")
+    public void validar(JoinPoint joinPoint) {
         var identificador = extrairIdentificador(joinPoint);
         log.info("Identificador extraído: [{}]", identificador);
     }
