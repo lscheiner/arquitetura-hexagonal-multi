@@ -35,7 +35,7 @@ public class UsuarioController {
 
 	private final UsuarioService usuarioService;
 
-	@ValidaRequest("email")
+	@ValidaRequest(field = "email" , clazz=UsuarioRequestDTO.class)
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Operation(summary = "Criar um novo usuário")
@@ -50,6 +50,7 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.INSTANCE.toDto(usuarioCriado));
 	}
 
+	@ValidaRequest(field = "id" , clazz=UUID.class)
 	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/{id}")
 	@Operation(summary = "Buscar usuário por ID")

@@ -14,5 +14,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ValidaRequest {
 	
-	String value() default "email";
+	String field();
+	Class<?> clazz();
 }
