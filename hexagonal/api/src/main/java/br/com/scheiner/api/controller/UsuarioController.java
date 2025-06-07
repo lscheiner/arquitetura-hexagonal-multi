@@ -17,6 +17,7 @@ import br.com.scheiner.api.dto.UsuarioRequestDTO;
 import br.com.scheiner.api.dto.UsuarioResponseDTO;
 import br.com.scheiner.api.mapper.UsuarioMapper;
 import br.com.scheiner.core.annotation.ValidaRequest;
+import br.com.scheiner.core.annotation.ValidarIdentificador;
 import br.com.scheiner.domain.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +36,7 @@ public class UsuarioController {
 
 	private final UsuarioService usuarioService;
 
-	@ValidaRequest(field = "email" , clazz=UsuarioRequestDTO.class)
+	@ValidaRequest
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Operation(summary = "Criar um novo usuário")
@@ -43,14 +44,14 @@ public class UsuarioController {
 		    @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso" , 
 		    		content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE , schema = @Schema(implementation = UsuarioResponseDTO.class))),
 	})
-	public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody @Valid UsuarioRequestDTO usuarioDto) {
+	public ResponseEntity<UsuarioResponseDTO> criarUsuario(@ValidarIdentificador("email") @RequestBody @Valid UsuarioRequestDTO usuarioDto) {
 
 		var usuarioCriado = usuarioService.criarUsuario(UsuarioMapper.INSTANCE.toDomain(usuarioDto));
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.INSTANCE.toDto(usuarioCriado));
 	}
 
-	@ValidaRequest(field = "id" , clazz=UUID.class)
+	@ValidaRequest
 	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/{id}")
 	@Operation(summary = "Buscar usuário por ID")
@@ -58,7 +59,7 @@ public class UsuarioController {
 		    @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso" , 
 		    		content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE , schema = @Schema(implementation = UsuarioResponseDTO.class))),
 	})
-	public ResponseEntity<UsuarioResponseDTO> obterUsuarioPorId(@PathVariable UUID id) {
+	public ResponseEntity<UsuarioResponseDTO> obterUsuarioPorId(@ValidarIdentificador @PathVariable UUID id) {
 		
 		var usuario = usuarioService.obterUsuarioPorId(id);
 		

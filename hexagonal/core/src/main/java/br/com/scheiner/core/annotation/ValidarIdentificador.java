@@ -1,6 +1,6 @@
 package br.com.scheiner.core.annotation;
 
-import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -10,8 +10,9 @@ import java.lang.annotation.Target;
 
 @Inherited
 @Retention(RUNTIME)
-@Target(METHOD)
+@Target(PARAMETER)
 @Documented
-public @interface ValidaRequest {
+public @interface ValidarIdentificador {
 	
+	String value() default "";
 }
