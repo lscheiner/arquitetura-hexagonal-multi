@@ -1,5 +1,7 @@
 package br.com.scheiner.core.aspect;
 
+import java.util.Collection;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -7,9 +9,11 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import br.com.scheiner.core.annotation.ValidarResponse;
+import br.com.scheiner.core.utils.AspectUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Aspect
@@ -20,18 +24,36 @@ public class ValidaResponseAspect {
     private static final ExpressionParser SPEL_PARSER = new SpelExpressionParser();
 
     @AfterReturning(pointcut = "@annotation(validarResponse)", returning = "returnValue")
-    public void validar(JoinPoint joinPoint , Object returnValue, ValidarResponse validarResponse) {
+    public void validar(JoinPoint joinPoint, Object returnValue, ValidarResponse validarResponse) {
+        
+    	Object corpoResposta = extrairObjetoReal(returnValue);
 
-    
-    	System.out.println(returnValue);
-    	
+        if (corpoResposta != null) {
+            
+        	String expressao = validarResponse.value();
+            
+            var resp = (expressao.isEmpty() || AspectUtils.isTipoSimples(corpoResposta))
+                    ? corpoResposta
+                    : avaliarExpressaoSpEL(corpoResposta, expressao);
+            
+            log.info("Identificador extraído response: [{}]", resp);
+ 
+        	
+        }
     }
 
+    private Object extrairObjetoReal(Object retorno) {
+        Object resultado = retorno;
 
-    private Object extrairIdentificador(JoinPoint joinPoint) {
+        if (retorno instanceof ResponseEntity<?> responseEntity) {
+            resultado = responseEntity.getBody();
+        }
 
-    	
-    	return null;
+        if (resultado instanceof Collection<?> colecao && !colecao.isEmpty()) {
+            return colecao.iterator().next();
+        }
+
+        return resultado;
     }
 
     private Object avaliarExpressaoSpEL(Object source, String expressao) {
