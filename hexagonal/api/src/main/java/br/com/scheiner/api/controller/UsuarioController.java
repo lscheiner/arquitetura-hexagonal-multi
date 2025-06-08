@@ -19,6 +19,7 @@ import br.com.scheiner.api.dto.UsuarioRequestDTO;
 import br.com.scheiner.api.dto.UsuarioResponseDTO;
 import br.com.scheiner.api.mapper.UsuarioMapper;
 import br.com.scheiner.core.annotation.ValidarIdentificador;
+import br.com.scheiner.core.annotation.ValidarResponse;
 import br.com.scheiner.domain.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,6 +38,7 @@ public class UsuarioController {
 
 	private final UsuarioService usuarioService;
 
+	@ValidarResponse
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Operation(summary = "Criar um novo usuário")
@@ -51,6 +53,7 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.INSTANCE.toDto(usuarioCriado));
 	}
 
+	@ValidarResponse
 	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/{id}")
 	@Operation(summary = "Buscar usuário por ID")
